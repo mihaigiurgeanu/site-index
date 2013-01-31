@@ -1,6 +1,6 @@
 # site-index
 
-FIXME: description
+Creates/updates the Lucene search index of the pages of a web-site.
 
 ## Installation
 

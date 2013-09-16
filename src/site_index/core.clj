@@ -24,7 +24,7 @@
                                 ["-l" "--largest-content-extractor" "Use Boilerpipe's LargestContentExtractor instead of ArticleExtractor." :default false :flag true]
                                 ["-n" "--num-words-extractor" "Use Boilerpipe's NumWordsRulesExtractor instead of ArticleExtractor." :default false :flag true]
                                 ["-1" "--test-extractor" "Do not create index, instead fetch the urls, apply content extractor and display the result." :default false :flag true]
-                                ["-j" "--jsessionid" "Drop jsessionid from the links" :default true :flag true])
+                                ["-j" "--keep-jsessionid" "Do not drop jsessionid from the links" :default false :flag true])
        ]
     
     ;; verify command line options
@@ -35,7 +35,7 @@
                             (:num-words-extractor options) #(content/extract-text (NumWordsRulesExtractor/INSTANCE) %1)
                             :default content/extract-text)
           normalize-link (comp #(clojure.string/replace %1 #"/ *$" "")
-                                (if (:jsessionid options)
+                                (if (not (:keep-jsessionid options))
                                   (do (println "Drop jsessionid") 
                                     #(clojure.string/replace %1 #";jsessionid=[ABCDEF0123456789]+" ""))
                                   (do (println "Keep jsessionid") identity)))]

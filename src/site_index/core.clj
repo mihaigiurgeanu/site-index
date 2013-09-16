@@ -37,7 +37,7 @@
           normalize-link (comp #(clojure.string/replace %1 #"/ *$" "")
                                 (if (not (:keep-jsessionid options))
                                   (do (println "Drop jsessionid") 
-                                    #(clojure.string/replace %1 #";jsessionid=[ABCDEF0123456789]+" ""))
+                                    #(clojure.string/replace %1 #";jsessionid=.*$" ""))
                                   (do (println "Keep jsessionid") identity)))]
       (cond
       (:help options) (println doc)

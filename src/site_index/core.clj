@@ -70,12 +70,12 @@
                                      {:url next-link
                                       :title (content/extract-title html)
                                       :content (extract-content html)}
-                                     nil)
+                                     (do (println next-link "is not a html page") nil))
                                new-links (set (map normalize-link (extract-links html next-link)))
                                new-unprocessed (union (disj unprocessed-links next-link)
                                                       (difference new-links new-processed))
                                ]
-                           (recur new-unprocessed new-processed (conj! docs doc)))
+                           (recur new-unprocessed new-processed (if doc (do (println next-link "will be indexed.") (conj! docs doc)) docs)))
                          (recur (disj unprocessed-links next-link) new-processed docs))
                        )))
                  )))))
